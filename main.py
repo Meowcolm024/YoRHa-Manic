@@ -15,11 +15,14 @@ clock = pygame.time.Clock()
 background = pygame.Surface(screen.get_size())
 background.fill(BLACK)
 
-ADDENEMY = pygame.USEREVENT +1 
-pygame.time.set_timer(ADDENEMY,1000)
+ADDENEMY = pygame.USEREVENT + 1 
+pygame.time.set_timer(ADDENEMY, enemySpawningSpeed)
+ADDENEMYBULLET = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDENEMYBULLET, enemyShootingSpeed)
 
 player = Player()
 enemies = pygame.sprite.Group()
+enemybullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
@@ -32,10 +35,17 @@ while running:
                 running = False
         elif event.type == QUIT:
             running = False
-        elif event.type == ADDENEMY:
+        # spawn new enemy
+        if event.type == ADDENEMY and len(enemies) < maxEnemyCount+1:
             new_enemy = Enemy()
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
+        # enemy fires
+        if event.type == ADDENEMYBULLET:
+            for enemy in enemies:
+                for bullet in enemy.shoot():
+                    enemybullets.add(bullet)
+                    all_sprites.add(bullet)
 
     #screen.fill(BLACK)
     screen.blit(background, (0, 0))
@@ -44,11 +54,13 @@ while running:
     player.update(pressed_keys)  
 
     enemies.update()
+    enemybullets.update()
 
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
 
-    col = pygame.sprite.spritecollideany(player, enemies)
+    # check whether player collides with enemy's bullet
+    col = pygame.sprite.spritecollideany(player, enemybullets)
     if col != None:
         col.kill()
         if player.hp > 0:
@@ -56,5 +68,5 @@ while running:
         else:
             player.kill()
 
-    pygame.display.flip()
+    pygame.display.update()
     #clock.tick(FPS)

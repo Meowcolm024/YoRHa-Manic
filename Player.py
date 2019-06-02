@@ -32,3 +32,11 @@ class Player(Sprite):
             self.rect.bottom = HEIGHT
         if self.rect.centery < 0:
             self.rect.centery = 0
+
+
+class PlayerBullets(Sprite):
+    def __init__(self):
+        super(PlayerBullets, self).__init__()
+        self.image = pygame.image.load('').convert_alpha()
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
