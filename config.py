@@ -3,14 +3,17 @@ This file saves the basic parameters
 and the configuration of the game
 """
 
-windowSize = (800, 600)
+WIDTH = 800
+HEIGHT = 600
+windowSize = (WIDTH, HEIGHT)  # size of the window
 
-whiteColor = (255, 255, 255)
-blackColor = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
-fps = 120
+FPS = 120  # frames per second
 
-playerSpeed = 6
+playerSpeed = 10  # player moving speed
+playerHP = 5
 
 saberImg = 'assets/player-saber.png'
 tieImg = 'assets/player-tie.png'
