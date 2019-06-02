@@ -23,6 +23,7 @@ pygame.time.set_timer(ADDENEMYBULLET, enemyShootingSpeed)
 player = Player()
 enemies = pygame.sprite.Group()
 enemybullets = pygame.sprite.Group()
+playerbullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
@@ -50,23 +51,46 @@ while running:
     #screen.fill(BLACK)
     screen.blit(background, (0, 0))
 
+    # player moves
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)  
 
+    # player fires
+    if pressed_keys[K_SPACE]:
+        bullet = player.shoot()
+        playerbullets.add(bullet)
+        all_sprites.add(bullet)
+
     enemies.update()
     enemybullets.update()
+    playerbullets.update()
 
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
 
     # check whether player collides with enemy's bullet
-    col = pygame.sprite.spritecollideany(player, enemybullets)
-    if col != None:
-        col.kill()
+    playerHit = pygame.sprite.spritecollideany(player, enemybullets)
+    if playerHit != None:
+        playerHit.kill()
         if player.hp > 0:
             player.hp -= 1
         else:
             player.kill()
+            running = False
+
+    # check whether player's bullet hit anything
+    for playerBullet in playerbullets:
+        enemyHit = pygame.sprite.spritecollideany(playerBullet, enemies)
+        bulletHit = pygame.sprite.spritecollideany(playerBullet, enemybullets)
+        if enemyHit != None:
+            if enemyHit.hp > 0:
+                enemyHit.hp -= 1
+            else:
+                enemyHit.kill()
+                playerBullet.kill()
+        if bulletHit != None:
+            bulletHit.kill()
+            playerBullet.kill()
 
     pygame.display.update()
-    #clock.tick(FPS)
+    clock.tick(FPS)

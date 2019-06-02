@@ -2,7 +2,8 @@
 
 import pygame, random
 from pygame.sprite import Sprite
-from config import WHITE, WIDTH, HEIGHT, enemyImg, enemyBulletImg, enemyBulletSpeed
+from config import WHITE, WIDTH, HEIGHT, enemyImg, \
+    enemyBulletImg, enemyBulletSpeed, enemyHP
 
 class Enemy(Sprite):
     def __init__(self):
@@ -12,6 +13,7 @@ class Enemy(Sprite):
         self.rect = self.image.get_rect(
             center=(random.randint(HEIGHT+50, HEIGHT+100), random.randint(0, WIDTH))
         )
+        self.hp = enemyHP
         self.speed = random.randint(-10,10) 
         while self.speed == 0: self.speed = random.randint(-10,10) 
 

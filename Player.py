@@ -3,7 +3,8 @@
 import pygame
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
-from config import WHITE, saberImg, playerSpeed, playerHP, WIDTH, HEIGHT
+from config import WHITE, WIDTH, HEIGHT, saberImg, playerSpeed, \
+    playerHP, playerBulletImg, playerBulletSpeed
 
 
 class Player(Sprite):
@@ -13,6 +14,10 @@ class Player(Sprite):
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.hp = playerHP
+
+    def shoot(self):
+        bullet = PlayerBullets(self.rect.centerx, self.rect.centery)
+        return bullet
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
@@ -35,8 +40,16 @@ class Player(Sprite):
 
 
 class PlayerBullets(Sprite):
-    def __init__(self):
+    def __init__(self, x, y):
         super(PlayerBullets, self).__init__()
-        self.image = pygame.image.load('').convert_alpha()
+        self.image = pygame.image.load(playerBulletImg).convert_alpha()
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=(x, y))
+        self.speed = playerBulletSpeed
+
+    def update(self):
+        self.rect.move_ip(self.speed, 0)
+        if self.rect.centerx < 0 or self.rect.centerx > WIDTH or \
+            self.rect.centery < 0 or self.rect.centery > HEIGHT:
+            self.kill()
