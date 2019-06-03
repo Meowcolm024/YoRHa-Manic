@@ -15,6 +15,7 @@ clock = pygame.time.Clock()
 background = pygame.Surface(screen.get_size())
 background.fill(BLACK)
 
+# enemy event
 ADDENEMY = pygame.USEREVENT + 1 
 pygame.time.set_timer(ADDENEMY, enemySpawningSpeed)
 ADDENEMYBULLET = pygame.USEREVENT + 1
@@ -48,7 +49,6 @@ while running:
                     enemybullets.add(bullet)
                     all_sprites.add(bullet)
 
-    #screen.fill(BLACK)
     screen.blit(background, (0, 0))
 
     # player moves
@@ -60,6 +60,12 @@ while running:
         bullet = player.shoot()
         playerbullets.add(bullet)
         all_sprites.add(bullet)
+
+    if pressed_keys[K_LSHIFT]:
+        bullets = player.defense()
+        for bullet in bullets:
+            playerbullets.add(bullet)
+            all_sprites.add(bullet)
 
     enemies.update()
     enemybullets.update()
