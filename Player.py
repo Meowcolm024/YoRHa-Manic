@@ -4,9 +4,9 @@ import pygame
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
 from config import WHITE, WIDTH, HEIGHT, playerImg, playerSpeed, \
-    playerHP, playerBulletShortImg, playerBulletImg
-from Bullet import OneWayBullet, EightWayBullet
-
+    playerHP, playerBulletShortImg, playerBulletImg, defenseDistance, \
+    playerBulletSpeed
+from Bullet import BulletBase, BulletFixed
 
 class Player(Sprite):
     def __init__(self):
@@ -17,7 +17,9 @@ class Player(Sprite):
         self.hp = playerHP
 
     def shoot(self):
-        bullet = OneWayBullet(self.rect.centerx, self.rect.centery, playerBulletImg)
+        x = self.rect.centerx
+        y = self.rect.centery
+        bullet = BulletBase(playerBulletImg, x, y, playerBulletSpeed, 0)
         return bullet
 
     def defense(self):
@@ -25,7 +27,9 @@ class Player(Sprite):
         y = self.rect.centery
         bullets = []
         for i in range(8):
-            bullets.append(EightWayBullet(x, y, i, playerBulletShortImg))
+            bullets.append(
+                BulletFixed(playerBulletShortImg, x, y, playerBulletSpeed, i, defenseDistance)
+                )
         return bullets
 
     def update(self, pressed_keys):

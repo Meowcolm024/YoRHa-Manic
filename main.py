@@ -8,7 +8,7 @@ from Enemy import Enemy
 
 # game initialization
 pygame.init()
-screen = pygame.display.set_mode(windowSize)
+screen = pygame.display.set_mode(WINDOWSIZE)
 pygame.display.set_caption('YoRHa-Manic')
 clock = pygame.time.Clock()
 
@@ -67,6 +67,7 @@ while running:
             playerbullets.add(bullet)
             all_sprites.add(bullet)
 
+    # update sprites
     enemies.update()
     enemybullets.update()
     playerbullets.update()
