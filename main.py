@@ -83,7 +83,7 @@ while running:
             player.hp -= 1
         else:
             player.kill()
-            running = False
+            # running = False
 
     # check whether player's bullet hit anything
     for playerBullet in playerbullets:

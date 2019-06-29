@@ -3,9 +3,7 @@
 import pygame
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT
-from config import WHITE, WIDTH, HEIGHT, playerImg, playerSpeed, \
-    playerHP, playerBulletShortImg, playerBulletImg, defenseDistance, \
-    playerBulletSpeed
+from config import *
 from Bullet import BulletBase, BulletFixed
 
 class Player(Sprite):

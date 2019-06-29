@@ -2,8 +2,7 @@
 
 import pygame, random
 from pygame.sprite import Sprite
-from config import WHITE, WIDTH, HEIGHT, enemyImg, enemyHP, \
-    enemyBulletImg, enemyBulletSpeed
+from config import *
 from Bullet import BulletFixed
 
 class Enemy(Sprite):
@@ -12,7 +11,7 @@ class Enemy(Sprite):
         self.image = pygame.image.load(enemyImg).convert_alpha()
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect(
-            center=(random.randint(HEIGHT+50, HEIGHT+100), random.randint(0, WIDTH))
+            center=(random.randint(int(WIDTH*0.75), WIDTH), random.randint(0, HEIGHT))
         )
         self.hp = enemyHP
         self.speedx = random.randint(-10,10) 
